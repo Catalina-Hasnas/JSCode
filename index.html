@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentjs</title>
+</head>
+<body>
+<script>
+
+var todoList = {
+    todos: [],
+    displayTodos: function() {
+        console.log('My todos:', this.todos);
+    },
+    addTodo: function(todoText) {
+        this.todos.push({
+        todoText: todoText,
+        completed: false 
+        });
+        this.displayTodos();
+    },
+    changeTodo: function(position, newValue){
+        this.todos[position] = newValue;
+        this.displayTodos();
+    },
+    deleteTodo: function(position, word = 1){
+        this.todos.splice(position, word);
+        this.displayTodos();
+    }
+
+};
+
+
+// {
+//     todoText: 'item1'
+//     completed: false
+//     }
+
+
+</script>
+</body>
+</html>
