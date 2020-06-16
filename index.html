@@ -16,23 +16,27 @@
     </div>
 
     <div>
+        <!-- text input cu buton de add -->
         <button onclick="handlers.addTodo()">Add</button>
         <input id="addTodoTextInput" type="text"> 
     </div>
 
     <div>
+        <!-- text input cu 2 atribute care schimba itemurile  -->
         <button onclick="handlers.changeTodo()">Change Todo</button>
         <input id="changeTodoPositionInput" type="number">
         <input id="changeTodoTextInput" type="text"> 
     </div>
 
     <div>
+        <!-- text input cu 2 atribute care sterge itemurile -->
         <button onclick="handlers.deleteTodo()">Delete Todo</button>
         <input id="deleteTodoPositionInput" type="number">
         <input id="deleteTodoWordInput" type="number">
     </div>
 
     <div>
+        <!-- text input cu pozitia itemului care va fi toggluit -->
         <button onclick="handlers.toggleCompleted()">Toggle Completed</button>
         <input id="toggleCompletedPositionInput" type="number">
     </div>
@@ -124,18 +128,24 @@
                 todoList.toggleAll();
             },
             addTodo: function () {
+                //face call la id-ul de input din html care adauga elemente
                 var addTodoTextInput = document.getElementById("addTodoTextInput");
+                //face call la functia addTodo din obiectul todoList, cu valoarea atributului add TodoText Input
                 todoList.addTodo(addTodoTextInput.value);
+                //dupa ce textul a fost scris si butonul apasat, textul se sterge
                 addTodoTextInput.value='';
             },
             changeTodo: function() {
+                //face call la id-ul de input din HTML care schimba elementele, pozitia lor si cuvantul schimbat
                 var changeTodoPositionInput = document.getElementById("changeTodoPositionInput");
                 var changeTodoTextInput = document.getElementById("changeTodoTextInput");
+                //face call la functia changeTodo din obiectul todoList, cu atributele de pozitie si cuvantul schimbat
                 todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value);
                 changeTodoPositionInput.value = '';
                 changeTodoTextInput.value ='';
             },
             deleteTodo: function() {
+                // face call la id-ul de input din HTML care sterg elementele
                 var deleteTodoPositionInput = document.getElementById("deleteTodoPositionInput");
                 var deleteTodoWordInput = document.getElementById("deleteTodoWordInput");
                 todoList.deleteTodo(deleteTodoPositionInput.valueAsNumber, deleteTodoWordInput.valueAsNumber = 1);
@@ -144,6 +154,7 @@
 
             },
             toggleCompleted: function () {
+                // face call la id-ul de input din HTML care selecteaza itemurile completate
                 var toggleCompletedPositionInput = document.getElementById("toggleCompletedPositionInput");
                 todoList.toggleCompleted(toggleCompletedPositionInput.valueAsNumber);
                 toggleCompletedPositionInput.value='';
@@ -152,11 +163,15 @@
 
         var view = {
             displayTodos: function () {
+                //variabile todosUl selecteaza sectiunea ul din codul HTML
                 var todosUl= document.querySelector("ul");
                 todosUl.innerHTML = '';
 
+                //calculeaza cate itemuri avem in todo list
                 for (var i=0; i<todoList.todos.length; i++) {
+                    // creeaza elementul li
                     var todoLi = document.createElement("li");
+                    // ii atribuie elementului li pozitia de child in Ul
                     todosUl.appendChild(todoLi);
                 }
 
