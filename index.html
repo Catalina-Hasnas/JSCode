@@ -28,13 +28,6 @@
     </div>
 
     <div>
-        <!-- text input cu 2 atribute care sterge itemurile -->
-        <button onclick="handlers.deleteTodo()">Delete Todo</button>
-        <input id="deleteTodoPositionInput" type="number">
-        <input id="deleteTodoWordInput" type="number">
-    </div>
-
-    <div>
         <!-- text input cu pozitia itemului care va fi toggluit -->
         <button onclick="handlers.toggleCompleted()">Toggle Completed</button>
         <input id="toggleCompletedPositionInput" type="number">
@@ -81,17 +74,17 @@
                         completedTodos++;
                         }
                     }   
-                            //daca toate sunt complete (true), le face uncheck (false)
-                        if (completedTodos === totalTodos) {
-                            for (var i= 0; i<totalTodos; i++) {
-                            this.todos[i].completed = false;
-                            }
-                            //daca nu toate sunt complete (true), atunci le face pe toate true
-                        } else {
-                            for (var i=0; i<totalTodos; i++) {
-                            this.todos[i].completed = true;
-                            }
+                        //daca toate sunt complete (true), le face uncheck (false)
+                    if (completedTodos === totalTodos) {
+                        for (var i= 0; i<totalTodos; i++) {
+                        this.todos[i].completed = false;
                         }
+                        //daca nu toate sunt complete (true), atunci le face pe toate true
+                    } else {
+                        for (var i=0; i<totalTodos; i++) {
+                        this.todos[i].completed = true;
+                        }
+                    }
             }
                
         };
@@ -116,13 +109,9 @@
                 changeTodoTextInput.value ='';
                 view.displayTodos();
             },
-            deleteTodo: function() {
+            deleteTodo: function(position) {
                 // face call la id-ul de input din HTML care sterg elementele
-                var deleteTodoPositionInput = document.getElementById("deleteTodoPositionInput");
-                var deleteTodoWordInput = document.getElementById("deleteTodoWordInput");
-                todoList.deleteTodo(deleteTodoPositionInput.valueAsNumber, deleteTodoWordInput.valueAsNumber = 1);
-                deleteTodoPositionInput.value='';
-                deleteTodoWordInput.value='';
+                todoList.deleteTodo(position);
                 view.displayTodos();
 
             },
@@ -160,14 +149,43 @@
                 //daca nu sunt completed, afiseaza un string ( )
                      todoTextWithCompletion = '( ) ' + todo.todoText;
                 }
+                    todoLi.id = i;
                 //text contentul la Li este textul de mai sus
                     todoLi.textContent= todoTextWithCompletion;
-                    // ii atribuie elementului li pozitia de child in Ul
+                   // afiseazaza un buton de delete copil la Li
+                    todoLi.appendChild(this.createDeleteButton());
+                     // ii atribuie elementului li pozitia de child in Ul
                     todosUl.appendChild(todoLi);
                 }
 
+            },
+
+            createDeleteButton: function() {
+                var deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = 'deleteButton'
+                return deleteButton;
+            },
+
+            setUpEventListeners: function () {
+                var todosUl = document.querySelector('ul');
+
+                todosUl.addEventListener('click', function(event) {
+                //Get the element that was clicked on
+                    var elementClicked = event.target;
+
+                    //Check if elementClicked is a delete button
+                    if (elementClicked.className === 'deleteButton') {
+                        handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
+                    }
+                });
+
             }
         };
+
+        view.setUpEventListeners();
+
+        
 
     </script>
 </body>
