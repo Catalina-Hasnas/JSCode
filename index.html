@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -42,8 +42,6 @@
         var todoList = {
             
             todos: [],
-            /*adauga todoText (la care se face referinta mai sus la afisare) 
-            ii da automat completed false*/
             addTodo: function (todoText) {
                 this.todos.push({
                     todoText: todoText,
@@ -68,24 +66,27 @@
             toggleAll: function() {
                 var totalTodos = this.todos.length;
                 var completedTodos = 0;
-                //verifica cate itemuri sunt completed
-                    for (var i=0; i<totalTodos; i++) {
-                        if (this.todos[i].completed === true) {
+
+                //Get number of completed todos.
+                this.todos.forEach(function (todo) {
+                    if (todo.completed === true) {
                         completedTodos++;
-                        }
-                    }   
-                        //daca toate sunt complete (true), le face uncheck (false)
-                    if (completedTodos === totalTodos) {
-                        for (var i= 0; i<totalTodos; i++) {
-                        this.todos[i].completed = false;
-                        }
-                        //daca nu toate sunt complete (true), atunci le face pe toate true
-                    } else {
-                        for (var i=0; i<totalTodos; i++) {
-                        this.todos[i].completed = true;
-                        }
                     }
+                });   
+
+                this.todos.forEach(function(todo) {   
+                    //Case 1. If everything is true, make everything false.    
+                    if (completedTodos === totalTodos) {
+                        todo.completed = false;
+                    //Case 2. Otherwise, make everything true.
+                    } else {
+                        todo.completed=true;
+                    }
+                });
+                
             }
+               
+            
                
         };
     
@@ -131,33 +132,25 @@
 
         var view = {
             displayTodos: function () {
-                //selecteaza sectiunea ul din codul HTML
+
                 var todosUl= document.querySelector("ul");
                 todosUl.innerHTML = '';
 
-                //calculeaza cate itemuri avem in todo list
-                for (var i=0; i<todoList.todos.length; i++) {
-                    // creeaza elementul li
+                todoList.todos.forEach(function (todo, position) {
                     var todoLi = document.createElement("li");
-                    var todo = todoList.todos[i];
                     var todoTextWithCompletion = '';
 
-                //daca itemurile din lista todo sunt completed, atunci se afiseaza un string (x) 
-                if (todo.completed === true) {
+                    if (todo.completed === true) {
                         todoTextWithCompletion = '(x) '+ todo.todoText;
-                } else {
-                //daca nu sunt completed, afiseaza un string ( )
-                     todoTextWithCompletion = '( ) ' + todo.todoText;
-                }
-                    todoLi.id = i;
-                //text contentul la Li este textul de mai sus
-                    todoLi.textContent= todoTextWithCompletion;
-                   // afiseazaza un buton de delete copil la Li
-                    todoLi.appendChild(this.createDeleteButton());
-                     // ii atribuie elementului li pozitia de child in Ul
-                    todosUl.appendChild(todoLi);
-                }
+                    } else {
+                        todoTextWithCompletion = '( ) ' + todo.todoText;
+                    }
 
+                    todoLi.id = position;
+                    todoLi.textContent = todoTextWithCompletion;
+                    todoLi.appendChild(this.createDeleteButton());
+                    todosUl.appendChild(todoLi);
+                }, this);
             },
 
             createDeleteButton: function() {
