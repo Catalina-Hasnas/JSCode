@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert</title>
+</head>
+<body>
+    <h1>List of ingredients:</h1>
+
+    <div>
+        <button id="add" onclick="handlers.addIngredients()">Add</button>
+        <input id="addIngr" type="text" placeholder="Ingredient">
+        <input id="addQuantity" type="number" placeholder="Quantity">
+
+        <label>Imperial</label>
+        <select id="imperial" name="imperial">
+            <option value="--"> -- </option>
+            <option value="ounces (liquid)">ounces (liquid)</option>
+            <option value="quarts">quarts</option>
+            <option value="ounces (weight)">ounces (weight)</option>
+            <option value="pounds">pounds</option>
+        </select> 
+
+        
+        <label>Metric</label>
+        <select id="metric" name="metric"> 
+            <option value="--"> -- </option>
+            <option value="militres">mililitres</option>
+            <option value="litres">litres</option>
+            <option value="grams">grams</option>
+            <option value="kilograms">kilograms</option>
+        </select>
+
+        <input id= "addUnitOfMeasurement" type="text" placeholder="others, e.g.: slice, loaf">
+        
+    <ul> 
+
+    </ul>
+
+    </div>
+
+    <script>
+    var ingredientsList = {
+
+        ingredients: [],
+        addIngredients: function (textIngr, textQuantity, textImperial, textMetric, textUnitOfMeasurement) {
+            this.ingredients.push ({
+            textIngr: textIngr,
+
+            // textUnitOfMeasurement: function () {
+            //         textUnitOfMeasurement.addEventlistener('click', function(event) {
+            //             var elementClicked = event.target;
+
+            //             if (elementClicked === 'addMetric') {
+
+            //                 textUnitofMeasurement = textMetric;
+            //             }
+
+            //             if (elementClicked === 'addImperial') {
+                            
+            //                 textUnitOfMeasurement = textImperial;
+
+            //             } else {
+            //                 textUnitOfMeasurement = textUnitOfMeasurement;
+            //             }
+            //         )}
+            //     }
+
+            
+            textQuantity: textQuantity,
+            textImperial: textImperial,
+            textMetric: textMetric,
+            textUnitOfMeasurement: textUnitOfMeasurement
+            });
+        }
+
+    };
+
+    var handlers = {
+        addIngredients: function () {
+            var addIngr = document.getElementById("addIngr");
+            var addQuantity = document.getElementById("addQuantity");
+            var addImperial = document.getElementById("imperial");
+            var addMetric = document.getElementById("metric");
+            var addUnitOfMeasurement = document.getElementById("addUnitOfMeasurement");
+            
+
+            ingredientsList.addIngredients(addIngr.value, addQuantity.valueAsNumber, addImperial.value, addMetric.value, addUnitOfMeasurement.value);
+
+            addIngr.value = '';
+            addQuantity.value = '';
+            addUnitOfMeasurement.value = '';
+            addImperial.value = '--';
+            addMetric.value = '--';
+
+            view.displayIngredients();
+            
+        }
+    };
+
+    var view = {
+        displayIngredients: function () {
+
+            var ingredientsUl= document.querySelector("ul");
+            ingredientsUl.innerHTML = '';
+
+            ingredientsList.ingredients.forEach(
+                function (ingredient, position) {
+                    var ingredientLi = document.createElement("li");
+                    var ingredientDisplayList = '';
+                    // var select = document.querySelectorAll("select");
+                    if (ingredient.textImperial != "--") {
+                        ingredientDisplayList = ingredient.textIngr + ' ' + ingredient.textQuantity + ' ' + ingredient.textImperial;
+                    } else if (ingredient.textMetric != "--") {
+                        ingredientDisplayList = ingredient.textIngr + ' ' + ingredient.textQuantity + ' ' + ingredient.textMetric;
+                    } else {
+                        ingredientDisplayList = ingredient.textIngr + ' ' + ingredient.textQuantity + ' ' + ingredient.textUnitOfMeasurement;
+                    }
+        
+                    ingredientLi.id = position;
+                    ingredientLi.textContent = ingredientDisplayList;
+                    ingredientsUl.appendChild(ingredientLi);
+                    }, 
+            this);
+        }
+    };
+
+</script>
+
+
+
+    
+    
+</body>
+
+<!-- 1 milliliter = 0.034 US fluid ounces
+1 liter = 1 US quart (liquid) 
+
+1 gram = 0.035 ounces (weight)
+1 kilogram = 2.2 pounds  -->
+
+</html>
+
+
+
+
+
+
+
+
+
+
